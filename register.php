@@ -18,6 +18,8 @@
  * @author              trabis <lusopoemas@gmail.com>
  */
 
+use Xmf\Request;
+
 include __DIR__ . '/header.php';
 
 if ($GLOBALS['xoopsUser']) {
@@ -26,7 +28,7 @@ if ($GLOBALS['xoopsUser']) {
 }
 
 if (!empty($_GET['op']) && in_array($_GET['op'], array('actv', 'activate'))) {
-    header('location: ./activate.php' . (empty($_SERVER['QUERY_STRING']) ? '' : '?' . $_SERVER['QUERY_STRING']));
+    header('location: ./activate.php' . (empty(Request::getString('QUERY_STRING', '', 'SERVER')) ? '' : '?' . Request::getString('QUERY_STRING', '', 'SERVER')));
     exit();
 }
 

@@ -1,4 +1,7 @@
 <?php
+
+use Xmf\Request;
+
 /**
  * Extended User Profile
  *
@@ -39,7 +42,7 @@ class ProfileCorePreload extends XoopsPreloadItem
             $op = trim($_GET['op']);
         }
         if ($op !== 'login' && (empty($_GET['from']) || 'profile' !== $_GET['from'])) {
-            header('location: ./modules/profile/user.php' . (empty($_SERVER['QUERY_STRING']) ? '' : '?' . $_SERVER['QUERY_STRING']));
+            header('location: ./modules/profile/user.php' . (empty(Request::getString('QUERY_STRING', '', 'SERVER')) ? '' : '?' . Request::getString('QUERY_STRING', '', 'SERVER')));
             exit();
         }
     }
@@ -49,7 +52,7 @@ class ProfileCorePreload extends XoopsPreloadItem
      */
     public static function eventCoreEdituserStart($args)
     {
-        header('location: ./modules/profile/edituser.php' . (empty($_SERVER['QUERY_STRING']) ? '' : '?' . $_SERVER['QUERY_STRING']));
+        header('location: ./modules/profile/edituser.php' . (empty(Request::getString('QUERY_STRING', '', 'SERVER')) ? '' : '?' . Request::getString('QUERY_STRING', '', 'SERVER')));
         exit();
     }
 
@@ -69,7 +72,7 @@ class ProfileCorePreload extends XoopsPreloadItem
      */
     public static function eventCoreRegisterStart($args)
     {
-        header('location: ./modules/profile/register.php' . (empty($_SERVER['QUERY_STRING']) ? '' : '?' . $_SERVER['QUERY_STRING']));
+        header('location: ./modules/profile/register.php' . (empty(Request::getString('QUERY_STRING', '', 'SERVER')) ? '' : '?' . Request::getString('QUERY_STRING', '', 'SERVER')));
         exit();
     }
 
@@ -78,7 +81,7 @@ class ProfileCorePreload extends XoopsPreloadItem
      */
     public static function eventCoreUserinfoStart($args)
     {
-        header('location: ./modules/profile/userinfo.php' . (empty($_SERVER['QUERY_STRING']) ? '' : '?' . $_SERVER['QUERY_STRING']));
+        header('location: ./modules/profile/userinfo.php' . (empty(Request::getString('QUERY_STRING', '', 'SERVER')) ? '' : '?' . Request::getString('QUERY_STRING', '', 'SERVER')));
         exit();
     }
 }

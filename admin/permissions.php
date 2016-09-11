@@ -1,4 +1,7 @@
 <?php
+
+use Xmf\Request;
+
 /**
  * Extended User Profile
  *
@@ -18,10 +21,10 @@
  */
 include_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation(basename(__FILE__));
 
-$op = \Xmf\Request::getCmd('op', 'edit');
+echo $adminObject->displayNavigation(basename(__FILE__));
+
+$op = Request::getCmd('op', 'edit');
 
 $perm_desc = '';
 switch ($op) {

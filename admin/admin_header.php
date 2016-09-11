@@ -16,6 +16,8 @@
  * @author              Taiwen Jiang <phppp@users.sourceforge.net>
  */
 
+use Xmf\Request;
+
 $path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/mainfile.php';
 include_once $path . '/include/cp_functions.php';
@@ -23,19 +25,20 @@ require_once $path . '/include/cp_header.php';
 
 global $xoopsModule;
 
-$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
 
 //if functions.php file exist
 //require_once dirname(__DIR__) . '/include/functions.php';
 
 // Load language files
-xoops_loadLanguage('admin', $thisModuleDir);
-xoops_loadLanguage('modinfo', $thisModuleDir);
-xoops_loadLanguage('main', $thisModuleDir);
+xoops_loadLanguage('admin', $moduleDirName);
+xoops_loadLanguage('modinfo', $moduleDirName);
+xoops_loadLanguage('main', $moduleDirName);
 
-$pathIcon16      = '../' . $xoopsModule->getInfo('icons16');
-$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
+$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
 $pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
+include_once $GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php');
 
 $myts = MyTextSanitizer::getInstance();
 
@@ -44,10 +47,12 @@ if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
     $xoopsTpl = new XoopsTpl();
 }
 
-include_once $GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php');
+
 
 xoops_loadLanguage('user');
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
     include_once $GLOBALS['xoops']->path('/class/template.php');
     $GLOBALS['xoopsTpl'] = new XoopsTpl();
 }
+
+$adminObject = \Xmf\Module\Admin::getInstance();

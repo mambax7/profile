@@ -22,46 +22,57 @@
 $path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/mainfile.php';
 
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+
 $dirname         = basename(dirname(__DIR__));
 $module_handler  = xoops_getHandler('module');
 $module          = $module_handler->getByDirname($dirname);
-$pathIcon32      = $module->getInfo('icons32');
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
 $pathLanguage    = $path . $pathModuleAdmin;
 
 if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
     $fileinc = $pathLanguage . '/language/english/main.php';
 }
-
 include_once $fileinc;
 
-$adminmenu = array();
+$adminmenu[] = array(
+    'title' => _PROFILE_MI_HOME,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png'
+);
 
-$i                      = 1;
-$adminmenu[$i]['title'] = _PROFILE_MI_HOME;
-$adminmenu[$i]['link']  = 'admin/index.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/home.png';
-++$i;
-$adminmenu[$i]['title'] = _PROFILE_MI_USERS;
-$adminmenu[$i]['link']  = 'admin/user.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/users.png';
-++$i;
-$adminmenu[$i]['title'] = _PROFILE_MI_CATEGORIES;
-$adminmenu[$i]['link']  = 'admin/category.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/category.png';
-++$i;
-$adminmenu[$i]['title'] = _PROFILE_MI_FIELDS;
-$adminmenu[$i]['link']  = 'admin/field.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/index.png';
-++$i;
-$adminmenu[$i]['title'] = _PROFILE_MI_STEPS;
-$adminmenu[$i]['link']  = 'admin/step.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/stats.png';
-++$i;
-$adminmenu[$i]['title'] = _PROFILE_MI_PERMISSIONS;
-$adminmenu[$i]['link']  = 'admin/permissions.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/permissions.png';
-++$i;
-$adminmenu[$i]['title'] = _PROFILE_MI_ABOUT;
-$adminmenu[$i]['link']  = 'admin/about.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/about.png';
+$adminmenu[] = array(
+    'title' => _PROFILE_MI_USERS,
+    'link'  => 'admin/user.php',
+    'icon'  => $pathIcon32 . '/users.png'
+);
+
+$adminmenu[] = array(
+    'title' => _PROFILE_MI_CATEGORIES,
+    'link'  => 'admin/category.php',
+    'icon'  => $pathIcon32 . '/category.png'
+);
+
+$adminmenu[] = array(
+    'title' => _PROFILE_MI_FIELDS,
+    'link'  => 'admin/field.php',
+    'icon'  => $pathIcon32 . '/index.png'
+);
+
+$adminmenu[] = array(
+    'title' => _PROFILE_MI_STEPS,
+    'link'  => 'admin/step.php',
+    'icon'  => $pathIcon32 . '/stats.png'
+);
+
+$adminmenu[] = array(
+    'title' => _PROFILE_MI_PERMISSIONS,
+    'link'  => 'admin/permissions.php',
+    'icon'  => $pathIcon32 . '/permissions.png'
+);
+
+$adminmenu[] = array(
+    'title' => _PROFILE_MI_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png'
+);

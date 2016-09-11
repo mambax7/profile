@@ -20,6 +20,8 @@ include_once __DIR__ . '/admin_header.php';
 
 //there is no way to override current tabs when using system menu
 //this dirty hack will have to do it
+
+
 $_SERVER['REQUEST_URI'] = 'admin/permissions.php';
 
 xoops_cp_header();

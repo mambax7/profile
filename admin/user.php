@@ -1,4 +1,7 @@
 <?php
+
+use Xmf\Request;
+
 /**
  * Extended User Profile
  *
@@ -18,8 +21,8 @@
  */
 include_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation(basename(__FILE__));
+
+echo $adminObject->displayNavigation(basename(__FILE__));
 
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 if ($op === 'editordelete') {
@@ -210,7 +213,7 @@ switch ($op) {
             xoops_confirm(array(
                               'ok' => 1,
                               'id' => $_REQUEST['id'],
-                              'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_PROFILE_AM_RUSUREDEL, $obj->getVar('uname') . ' (' . $obj->getVar('email') . ')'));
+                              'op' => 'delete'), Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_PROFILE_AM_RUSUREDEL, $obj->getVar('uname') . ' (' . $obj->getVar('email') . ')'));
         }
         break;
 }

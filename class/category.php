@@ -17,6 +17,8 @@
  * @author              Taiwen Jiang <phppp@users.sourceforge.net>
  */
 
+use Xmf\Request;
+
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 /**
@@ -39,14 +41,14 @@ class ProfileCategory extends XoopsObject
     /**
      * Get {@link XoopsThemeForm} for adding/editing categories
      *
-     * @param mixed $action URL to submit to or false for $_SERVER['REQUEST_URI']
+     * @param mixed $action URL to submit to or false for Request::getString('REQUEST_URI', '', 'SERVER')
      *
      * @return object
      */
     public function getForm($action = false)
     {
         if ($action === false) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = Request::getString('REQUEST_URI', '', 'SERVER');
         }
         $title = $this->isNew() ? sprintf(_PROFILE_AM_ADD, _PROFILE_AM_CATEGORY) : sprintf(_PROFILE_AM_EDIT, _PROFILE_AM_CATEGORY);
 

@@ -1,4 +1,7 @@
 <?php
+
+use Xmf\Request;
+
 /**
  * Extended User Profile
  *
@@ -18,11 +21,10 @@
  */
 include_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
 
-$indexAdmin->addItemButton(_ADD . ' ' . _PROFILE_AM_STEP, 'step.php?op=new', 'add', '');
-echo $indexAdmin->addNavigation(basename(__FILE__));
-echo $indexAdmin->renderButton('right', '');
+$adminObject->addItemButton(_ADD . ' ' . _PROFILE_AM_STEP, 'step.php?op=new', 'add', '');
+echo $adminObject->displayNavigation(basename(__FILE__));
+echo $adminObject->renderButton('right', '');
 
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : (isset($_REQUEST['id']) ? 'edit' : 'list');
 
@@ -77,7 +79,7 @@ switch ($op) {
             xoops_confirm(array(
                               'ok' => 1,
                               'id' => $_REQUEST['id'],
-                              'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_PROFILE_AM_RUSUREDEL, $obj->getVar('step_name')));
+                              'op' => 'delete'), Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_PROFILE_AM_RUSUREDEL, $obj->getVar('step_name')));
         }
         break;
 

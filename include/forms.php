@@ -17,20 +17,22 @@
  * @author              Taiwen Jiang <phppp@users.sourceforge.net>
  */
 
+use Xmf\Request;
+
 // defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
 
 /**
  * Get {@link XoopsThemeForm} for adding/editing fields
  *
  * @param ProfileField $field  {@link ProfileField} object to get edit form for
- * @param mixed        $action URL to submit to - or false for $_SERVER['REQUEST_URI']
+ * @param mixed        $action URL to submit to - or false for Request::getString('REQUEST_URI', '', 'SERVER')
  *
  * @return object
  */
 function profile_getFieldForm(ProfileField $field, $action = false)
 {
     if ($action === false) {
-        $action = $_SERVER['REQUEST_URI'];
+        $action = Request::getString('REQUEST_URI', '', 'SERVER');
     }
     $title = $field->isNew() ? sprintf(_PROFILE_AM_ADD, _PROFILE_AM_FIELD) : sprintf(_PROFILE_AM_EDIT, _PROFILE_AM_FIELD);
 
@@ -293,7 +295,7 @@ function profile_getRegisterForm(XoopsUser $user, $profile, $step = null)
         $config_handler             = xoops_getHandler('config');
         $GLOBALS['xoopsConfigUser'] = $config_handler->getConfigsByCat(XOOPS_CONF_USER);
     }
-    $action    = $_SERVER['REQUEST_URI'];
+    $action    = Request::getString('REQUEST_URI', '', 'SERVER');
     $step_no   = $step['step_no'];
     $use_token = $step['step_no'] > 0;// ? true : false;
     $reg_form  = new XoopsThemeForm($step['step_name'], 'regform', $action, 'post', $use_token);
@@ -391,7 +393,7 @@ function profile_getRegisterForm(XoopsUser $user, $profile, $step = null)
 function profile_getUserForm(XoopsUser $user, ProfileProfile $profile = null, $action = false)
 {
     if ($action === false) {
-        $action = $_SERVER['REQUEST_URI'];
+        $action = Request::getString('REQUEST_URI', '', 'SERVER');
     }
     if (empty($GLOBALS['xoopsConfigUser'])) {
         $config_handler             = xoops_getHandler('config');
@@ -526,7 +528,7 @@ function profile_getUserForm(XoopsUser $user, ProfileProfile $profile = null, $a
 function profile_getStepForm(ProfileRegstep $step = null, $action = false)
 {
     if ($action === false) {
-        $action = $_SERVER['REQUEST_URI'];
+        $action = Request::getString('REQUEST_URI', '', 'SERVER');
     }
     if (empty($GLOBALS['xoopsConfigUser'])) {
         $config_handler             = xoops_getHandler('config');

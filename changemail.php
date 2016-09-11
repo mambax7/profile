@@ -1,4 +1,7 @@
 <?php
+
+use Xmf\Request;
+
 /**
  * Extended User Profile
  *
@@ -31,7 +34,7 @@ include $GLOBALS['xoops']->path('header.php');
 if (!isset($_POST['submit']) || !isset($_POST['passwd'])) {
     //show change password form
     include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-    $form = new XoopsThemeForm(_PROFILE_MA_CHANGEMAIL, 'emailform', $_SERVER['REQUEST_URI'], 'post', true);
+    $form = new XoopsThemeForm(_PROFILE_MA_CHANGEMAIL, 'emailform', Request::getString('REQUEST_URI', '', 'SERVER'), 'post', true);
     $form->addElement(new XoopsFormPassword(_US_PASSWORD, 'passwd', 15, 50), true);
     $form->addElement(new XoopsFormText(_PROFILE_MA_NEWMAIL, 'newmail', 15, 50), true);
     $form->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
