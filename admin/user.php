@@ -28,7 +28,8 @@ $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 if ($op === 'editordelete') {
     $op = isset($_REQUEST['delete']) ? 'delete' : 'edit';
 }
-$handler = xoops_getHandler('member');
+/** @var XoopsMemberHandler $memberHandler */
+$memberHandler = xoops_getHandler('member');
 
 switch ($op) {
     default:
@@ -46,7 +47,7 @@ switch ($op) {
     case 'new':
         xoops_loadLanguage('main', $GLOBALS['xoopsModule']->getVar('dirname', 'n'));
         include_once dirname(__DIR__) . '/include/forms.php';
-        $obj = $handler->createUser();
+        $obj = $memberHandler->createUser();
         $obj->setGroups(array(XOOPS_GROUP_USERS));
         $form = profile_getUserForm($obj);
         $form->display();
@@ -54,7 +55,7 @@ switch ($op) {
 
     case 'edit':
         xoops_loadLanguage('main', $GLOBALS['xoopsModule']->getVar('dirname', 'n'));
-        $obj = $handler->getUser($_REQUEST['id']);
+        $obj = $memberHandler->getUser($_REQUEST['id']);
         if (in_array(XOOPS_GROUP_ADMIN, $obj->getGroups()) && !in_array(XOOPS_GROUP_ADMIN, $GLOBALS['xoopsUser']->getGroups())) {
             // If not webmaster trying to edit a webmaster - disallow
             redirect_header('user.php', 3, _US_NOEDITRIGHT);
@@ -72,25 +73,27 @@ switch ($op) {
         }
 
         // Dynamic fields
-        $profile_handler = xoops_getModuleHandler('profile');
+        /** @var ProfileProfileHandler $profileHandler */
+        $profileHandler = xoops_getModuleHandler('profile');
         // Get fields
-        $fields     = $profile_handler->loadFields();
-        $userfields = $profile_handler->getUserVars();
+        $fields     = $profileHandler->loadFields();
+        $userfields = $profileHandler->getUserVars();
         // Get ids of fields that can be edited
-        $gperm_handler   = xoops_getHandler('groupperm');
-        $editable_fields = $gperm_handler->getItemIds('profile_edit', $GLOBALS['xoopsUser']->getGroups(), $GLOBALS['xoopsModule']->getVar('mid'));
+        /** @var XoopsGroupPermHandler $gpermHandler */
+        $gpermHandler   = xoops_getHandler('groupperm');
+        $editable_fields = $gpermHandler->getItemIds('profile_edit', $GLOBALS['xoopsUser']->getGroups(), $GLOBALS['xoopsModule']->getVar('mid'));
 
         $uid = empty($_POST['uid']) ? 0 : (int)$_POST['uid'];
         if (!empty($uid)) {
-            $user    = $handler->getUser($uid);
-            $profile = $profile_handler->get($uid);
+            $user    = $memberHandler->getUser($uid);
+            $profile = $profileHandler->get($uid);
             if (!is_object($profile)) {
-                $profile = $profile_handler->create();
+                $profile = $profileHandler->create();
                 $profile->setVar('profile_id', $uid);
             }
         } else {
-            $user    = $handler->createUser();
-            $profile = $profile_handler->create();
+            $user    = $memberHandler->createUser();
+            $profile = $profileHandler->create();
             if (count($fields) > 0) {
                 foreach (array_keys($fields) as $i) {
                     $fieldname = $fields[$i]->getVar('field_name');
@@ -144,11 +147,11 @@ switch ($op) {
         $new_groups = isset($_POST['groups']) ? $_POST['groups'] : array();
 
         if (count($errors) == 0) {
-            if ($handler->insertUser($user)) {
+            if ($memberHandler->insertUser($user)) {
                 $profile->setVar('profile_id', $user->getVar('uid'));
-                $profile_handler->insert($profile);
+                $profileHandler->insert($profile);
                 include_once $GLOBALS['xoops']->path('/modules/system/constants.php');
-                if ($gperm_handler->checkRight('system_admin', XOOPS_SYSTEM_GROUP, $GLOBALS['xoopsUser']->getGroups(), 1)) {
+                if ($gpermHandler->checkRight('system_admin', XOOPS_SYSTEM_GROUP, $GLOBALS['xoopsUser']->getGroups(), 1)) {
                     //Update group memberships
                     $cur_groups = $user->getGroups();
 
@@ -157,12 +160,12 @@ switch ($op) {
 
                     if (count($added_groups) > 0) {
                         foreach ($added_groups as $groupid) {
-                            $handler->addUserToGroup($groupid, $user->getVar('uid'));
+                            $memberHandler->addUserToGroup($groupid, $user->getVar('uid'));
                         }
                     }
                     if (count($removed_groups) > 0) {
                         foreach ($removed_groups as $groupid) {
-                            $handler->removeUsersFromGroup($groupid, array($user->getVar('uid')));
+                            $memberHandler->removeUsersFromGroup($groupid, array($user->getVar('uid')));
                         }
                     }
                 }
@@ -188,7 +191,7 @@ switch ($op) {
         if ($_REQUEST['id'] == $GLOBALS['xoopsUser']->getVar('uid')) {
             redirect_header('user.php', 2, _PROFILE_AM_CANNOTDELETESELF);
         }
-        $obj    = $handler->getUser($_REQUEST['id']);
+        $obj    = $memberHandler->getUser($_REQUEST['id']);
         $groups = $obj->getGroups();
         if (in_array(XOOPS_GROUP_ADMIN, $groups)) {
             redirect_header('user.php', 3, _PROFILE_AM_CANNOTDELETEADMIN, false);
@@ -198,10 +201,11 @@ switch ($op) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('user.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()), false);
             }
-            $profile_handler = xoops_getModuleHandler('profile');
-            $profile         = $profile_handler->get($obj->getVar('uid'));
-            if (!$profile || $profile->isNew() || $profile_handler->delete($profile)) {
-                if ($handler->deleteUser($obj)) {
+            /** @var ProfileProfileHandler $profileHandler */
+            $profileHandler = xoops_getModuleHandler('profile');
+            $profile         = $profileHandler->get($obj->getVar('uid'));
+            if (!$profile || $profile->isNew() || $profileHandler->delete($profile)) {
+                if ($memberHandler->deleteUser($obj)) {
                     redirect_header('user.php', 3, sprintf(_PROFILE_AM_DELETEDSUCCESS, $obj->getVar('uname') . ' (' . $obj->getVar('email') . ')'), false);
                 } else {
                     echo $obj->getHtmlErrors();

@@ -21,8 +21,9 @@ use Xmf\Request;
 
 $xoopsOption['pagetype'] = 'user';
 include __DIR__ . '/header.php';
-$config_handler             = xoops_getHandler('config');
-$GLOBALS['xoopsConfigUser'] = $config_handler->getConfigsByCat(XOOPS_CONF_USER);
+/** @var XoopsConfigHandler $configHandler */
+$configHandler             = xoops_getHandler('config');
+$GLOBALS['xoopsConfigUser'] = $configHandler->getConfigsByCat(XOOPS_CONF_USER);
 
 if (!$GLOBALS['xoopsUser'] || $GLOBALS['xoopsConfigUser']['allow_chgmail'] != 1) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname', 'n') . '/', 2, _NOPERM);
@@ -56,9 +57,9 @@ if (!isset($_POST['submit']) || !isset($_POST['passwd'])) {
     } else {
         //update password
         $GLOBALS['xoopsUser']->setVar('email', trim($_POST['newmail']));
-
-        $member_handler = xoops_getHandler('member');
-        if ($member_handler->insertUser($GLOBALS['xoopsUser'])) {
+        /** @var XoopsMemberHandler $memberHandler */
+        $memberHandler = xoops_getHandler('member');
+        if ($memberHandler->insertUser($GLOBALS['xoopsUser'])) {
             $msg = _PROFILE_MA_EMAILCHANGED;
 
             //send email to new email address

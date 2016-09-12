@@ -43,7 +43,7 @@ class ProfileCategory extends XoopsObject
      *
      * @param mixed $action URL to submit to or false for Request::getString('REQUEST_URI', '', 'SERVER')
      *
-     * @return object
+     * @return XoopsThemeForm
      */
     public function getForm($action = false)
     {

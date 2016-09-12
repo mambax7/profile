@@ -71,6 +71,7 @@ class ProfileProfileHandler extends XoopsPersistableObjectHandler
     public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'profile_profile', 'profileprofile', 'profile_id');
+        /** @var ProfileFieldHandler _fHandler */
         $this->_fHandler = xoops_getModuleHandler('field', 'profile');
     }
 
@@ -79,7 +80,7 @@ class ProfileProfileHandler extends XoopsPersistableObjectHandler
      *
      * @param bool $isNew Flag the new objects as "new"?
      *
-     * @return object {@link ProfileProfile}
+     * @return ProfileProfile {@link ProfileProfile}
      */
     public function create($isNew = true)
     {
@@ -101,7 +102,7 @@ class ProfileProfileHandler extends XoopsPersistableObjectHandler
      * @param integer|null  $uid
      * @param string[]|null $fields array of field names to fetch, null for all
      *
-     * @return object {@link ProfileProfile}
+     * @return ProfileProfile {@link ProfileProfile}
      *
      * @internal This was get($uid, $createOnFailure = true). No callers found using the extra parameter.
      * @internal Modified to match parent signature.
@@ -326,13 +327,14 @@ class ProfileProfileHandler extends XoopsPersistableObjectHandler
         if (!$result) {
             return array(array(), array(), 0);
         }
-        $user_handler = xoops_getHandler('user');
+        /** @var XoopsUserHandler $userHandler */
+        $userHandler = xoops_getHandler('user');
         $uservars     = $this->getUserVars();
         $users        = array();
         $profiles     = array();
         while ($myrow = $this->db->fetchArray($result)) {
             $profile = $this->create(false);
-            $user    = $user_handler->create(false);
+            $user    = $userHandler->create(false);
 
             foreach ($myrow as $name => $value) {
                 if (in_array($name, $uservars)) {

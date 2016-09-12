@@ -19,8 +19,6 @@
 include_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
-//$module_info = $module_handler->get($xoopsModule->getVar('mid'));
-
 echo $adminObject->displayNavigation(basename(__FILE__));
 \Xmf\Module\Admin::setPaypal('6KJ7RW5DR3VTJ');
 echo $adminObject->renderAbout(false);

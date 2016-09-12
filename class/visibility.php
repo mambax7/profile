@@ -80,7 +80,7 @@ class ProfileVisibilityHandler extends XoopsPersistableObjectHandler
      */
     public function getAllByFieldId(CriteriaElement $criteria = null)
     {
-        $rawRows = parent::getAll($criteria, null, false, false);
+        $rawRows =& parent::getAll($criteria, null, false, false);
 
         usort($rawRows, array($this, 'visibilitySort'));
 

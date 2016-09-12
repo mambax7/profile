@@ -25,8 +25,9 @@ include_once $path . '/mainfile.php';
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 
 $dirname         = basename(dirname(__DIR__));
-$module_handler  = xoops_getHandler('module');
-$module          = $module_handler->getByDirname($dirname);
+/** @var XoopsModuleHandler $moduleHandler */
+$moduleHandler  = xoops_getHandler('module');
+$module          = $moduleHandler->getByDirname($dirname);
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
 $pathLanguage    = $path . $pathModuleAdmin;
 
