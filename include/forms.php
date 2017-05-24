@@ -392,7 +392,7 @@ function profile_getRegisterForm(XoopsUser $user, $profile, $step = null)
     // Get categories
     /** @var ProfileCategoryHandler $catHandler */
     $catHandler = xoops_getModuleHandler('category');
-    $categories =& $catHandler->getObjects(null, true, false);
+    $categories = $catHandler->getObjects(null, true, false);
 
     foreach (array_keys($elements) as $k) {
         array_multisort($weights[$k], SORT_ASC, array_keys($elements[$k]), SORT_ASC, $elements[$k]);
@@ -520,7 +520,7 @@ function profile_getUserForm(XoopsUser $user, ProfileProfile $profile = null, $a
     /** @var ProfileCategoryHandler $catHandler */
     $catHandler     = xoops_getModuleHandler('category');
     $categories     = array();
-    $all_categories =& $catHandler->getObjects(null, true, false);
+    $all_categories = $catHandler->getObjects(null, true, false);
     $count_fields   = count($fields);
 
     foreach (array_keys($fields) as $i) {

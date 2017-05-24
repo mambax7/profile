@@ -45,7 +45,7 @@ if (!empty($_GET['id']) && !empty($_GET['actkey'])) {
                 $GLOBALS['xoopsConfigUser'] = $configHandler->getConfigsByCat(XOOPS_CONF_USER);
                 if ($GLOBALS['xoopsConfigUser']['activation_type'] == 2) {
                     $myts        = MyTextSanitizer::getInstance();
-                    $xoopsMailer =& xoops_getMailer();
+                    $xoopsMailer = xoops_getMailer();
                     $xoopsMailer->useMail();
                     $xoopsMailer->setTemplate('activated.tpl');
                     $xoopsMailer->assign('SITENAME', $GLOBALS['xoopsConfig']['sitename']);
@@ -82,7 +82,7 @@ if (!empty($_GET['id']) && !empty($_GET['actkey'])) {
     if ($getuser[0]->isActive()) {
         redirect_header(XOOPS_URL, 2, sprintf(_US_USERALREADYACTIVE, $getuser[0]->getVar('email')));
     }
-    $xoopsMailer =& xoops_getMailer();
+    $xoopsMailer = xoops_getMailer();
     $xoopsMailer->useMail();
     $xoopsMailer->setTemplate('register.tpl');
     $xoopsMailer->assign('SITENAME', $GLOBALS['xoopsConfig']['sitename']);

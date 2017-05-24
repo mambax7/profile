@@ -133,7 +133,7 @@ $fields          = $profileHandler->loadFields();
 $catHandler     = xoops_getModuleHandler('category');
 $cat_crit        = new CriteriaCompo();
 $cat_crit->setSort('cat_weight');
-$cats =& $catHandler->getObjects($cat_crit, true, false);
+$cats = $catHandler->getObjects($cat_crit, true, false);
 unset($cat_crit);
 
 $avatar = '';

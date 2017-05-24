@@ -35,7 +35,7 @@ $fieldHandler = xoops_getModuleHandler('field');
 switch ($op) {
     default:
     case 'list':
-        $fields =& $fieldHandler->getObjects(null, true, false);
+        $fields = $fieldHandler->getObjects(null, true, false);
 
     /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
@@ -45,7 +45,7 @@ switch ($op) {
         $catHandler = xoops_getModuleHandler('category');
         $criteria    = new CriteriaCompo();
         $criteria->setSort('cat_weight');
-        $cats =& $catHandler->getObjects($criteria, true);
+        $cats = $catHandler->getObjects($criteria, true);
         unset($criteria);
 
         $categories[0] = _PROFILE_AM_DEFAULT;
@@ -142,7 +142,7 @@ switch ($op) {
                 //if there are changed fields, fetch the fieldcategory objects
                 /** @var ProfileFieldHandler $fieldHandler */
                 $fieldHandler = xoops_getModuleHandler('field');
-                $fields        =& $fieldHandler->getObjects(new Criteria('field_id', '(' . implode(',', $ids) . ')', 'IN'), true);
+                $fields        = $fieldHandler->getObjects(new Criteria('field_id', '(' . implode(',', $ids) . ')', 'IN'), true);
                 foreach ($ids as $i) {
                     $fields[$i]->setVar('field_weight', (int)$weight[$i]);
                     $fields[$i]->setVar('cat_id', (int)$category[$i]);

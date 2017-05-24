@@ -250,7 +250,7 @@ if ($current_step > 0 && empty($stop) && (!empty($steps[$current_step - 1]['step
             // We are good! If this is 'was' a new user then we handle notification
             if ($isNew) {
                 if ($GLOBALS['xoopsConfigUser']['new_user_notify'] == 1 && !empty($GLOBALS['xoopsConfigUser']['new_user_notify_group'])) {
-                    $xoopsMailer =& xoops_getMailer();
+                    $xoopsMailer = xoops_getMailer();
                     $xoopsMailer->reset();
                     $xoopsMailer->useMail();
                     $xoopsMailer->setToGroups($memberHandler->getGroup($GLOBALS['xoopsConfigUser']['new_user_notify_group']));
@@ -269,7 +269,7 @@ if ($current_step > 0 && empty($stop) && (!empty($steps[$current_step - 1]['step
                         XoopsUserUtility::sendWelcome($newuser);
                     } else {
                         if ($GLOBALS['xoopsConfigUser']['activation_type'] == 0) {
-                            $xoopsMailer =& xoops_getMailer();
+                            $xoopsMailer = xoops_getMailer();
                             $xoopsMailer->reset();
                             $xoopsMailer->useMail();
                             $xoopsMailer->setTemplate('register.tpl');
@@ -288,7 +288,7 @@ if ($current_step > 0 && empty($stop) && (!empty($steps[$current_step - 1]['step
                             }
                         } else {
                             if ($GLOBALS['xoopsConfigUser']['activation_type'] == 2) {
-                                $xoopsMailer =& xoops_getMailer();
+                                $xoopsMailer = xoops_getMailer();
                                 $xoopsMailer->reset();
                                 $xoopsMailer->useMail();
                                 $xoopsMailer->setTemplate('adminactivate.tpl');
